@@ -39,6 +39,9 @@ export default function Navbar() {
             <Link to="/internships" className={linkClasses("/internships")}>
               Internships
             </Link>
+            <Link to="/career-guidance" className={linkClasses("/career-guidance")}>
+              Resources
+            </Link>
           </nav>
 
           {/* Auth Buttons */}

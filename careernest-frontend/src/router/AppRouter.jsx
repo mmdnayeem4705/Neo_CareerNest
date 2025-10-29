@@ -10,6 +10,7 @@ import Internships from '../pages/Internships';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import JobApply from '../pages/JobApply';
+import InternshipApply from '../pages/InternshipApply';
 import HRDashboard from '../pages/HRDashboard';
 import NotFound from '../pages/NotFound';
 
@@ -51,6 +52,11 @@ const AppRouter = () => {
         <Route path="/jobs/apply/:id" element={
           <ProtectedRoute>
             <JobApply />
+          </ProtectedRoute>
+        } />
+        <Route path="/internships/apply/:id" element={
+          <ProtectedRoute>
+            <InternshipApply />
           </ProtectedRoute>
         } />
         <Route path="/hr/dashboard" element={

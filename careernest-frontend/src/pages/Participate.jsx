@@ -1,9 +1,10 @@
 // pages/Participate.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Participate = () => {
   const [activeTab, setActiveTab] = useState('contests');
+  const navigate = useNavigate();
 
   const contests = [
     {
@@ -318,7 +319,16 @@ const Participate = () => {
                       </div>
                     </div>
 
-                    <button className="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">
+                    <button
+                      onClick={() => {
+                        if (contest.status === 'Completed') {
+                          navigate(`/contests/${contest.id}/results`);
+                        } else {
+                          navigate(`/contests/${contest.id}/join`);
+                        }
+                      }}
+                      className="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors"
+                    >
                       {contest.status === 'Completed' ? 'View Results' : 'Join Contest'}
                     </button>
                   </div>
@@ -387,7 +397,10 @@ const Participate = () => {
                         {test.certificate && <span className="mr-2">🏆</span>}
                         {test.certificate ? 'Certificate Available' : 'No Certificate'}
                       </div>
-                      <button className="bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">
+                      <button
+                        onClick={() => navigate(`/mock-tests/${test.id}/start`)}
+                        className="bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors"
+                      >
                         Start Test
                       </button>
                     </div>

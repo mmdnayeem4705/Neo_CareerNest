@@ -1,9 +1,10 @@
 // pages/Prepare.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Prepare = () => {
   const [activeTab, setActiveTab] = useState('career-guidance');
+  const navigate = useNavigate();
 
   const careerGuidanceContent = [
     {
@@ -167,7 +168,18 @@ const Prepare = () => {
                         </li>
                       ))}
                     </ul>
-                    <button className="mt-6 w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
+                    <button
+                      onClick={() => {
+                        if (item.title === 'Career Path Planning') {
+                          navigate('/career-guidance/path-planning');
+                        } else if (item.title === 'Industry Insights') {
+                          navigate('/career-guidance/industry-insights');
+                        } else if (item.title === 'Professional Development') {
+                          navigate('/career-guidance/professional-development');
+                        }
+                      }}
+                      className="mt-6 w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors"
+                    >
                       Get Started
                     </button>
                   </div>
@@ -200,7 +212,10 @@ const Prepare = () => {
                       <span>📅 {expert.date}</span>
                       <span>⏱️ {expert.duration}</span>
                     </div>
-                    <button className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
+                    <button
+                      onClick={() => navigate('/expert-speak')}
+                      className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors"
+                    >
                       Register Now
                     </button>
                   </div>

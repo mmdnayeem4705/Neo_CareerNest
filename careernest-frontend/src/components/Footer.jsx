@@ -50,18 +50,18 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Resources</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/prepare" className="text-gray-300 hover:text-blue-400 transition-colors">
+                <Link to="/career-guidance" className="text-gray-300 hover:text-blue-400 transition-colors">
                   Career Guidance
                 </Link>
               </li>
               <li>
-                <Link to="/prepare" className="text-gray-300 hover:text-blue-400 transition-colors">
+                <Link to="/resume-maker" className="text-gray-300 hover:text-blue-400 transition-colors">
                   Resume Maker
                 </Link>
               </li>
               <li>
-                <Link to="/prepare" className="text-gray-300 hover:text-blue-400 transition-colors">
-                  Interview Prep
+                <Link to="/interview-experiences" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Interview Experiences
                 </Link>
               </li>
               <li>
