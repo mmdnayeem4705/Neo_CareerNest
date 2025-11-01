@@ -17,15 +17,15 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class PrepareController {
     
-    private final CareerGuideRepository careerGuideRepository = null;
+    private final CareerGuideRepository careerGuideRepository;
     
     @GetMapping("/career-guides")
-    public ResponseEntity<ApiResponse<List<CareerGuide>>> getCareerGuides(
+    public ResponseEntity<ApiResponse<List>> getCareerGuides(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String searchTerm) {
         
         try {
-            List<CareerGuide> guides;
+            List guides;
             if (category != null || searchTerm != null) {
                 guides = careerGuideRepository.findGuidesWithFilters(category, searchTerm);
             } else {
@@ -33,26 +33,24 @@ public class PrepareController {
             }
             return ResponseEntity.ok(ApiResponse.success(guides));
         } catch (Exception e) {
-            ApiResponse<List<CareerGuide>> log;
-			ApiResponse.error("Failed to fetch career guides: {}", e.getMessage());
+            log.error("Failed to fetch career guides: {}", e.getMessage());
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch career guides: " + e.getMessage()));
         }
     }
     
     @GetMapping("/career-guides/featured")
-    public ResponseEntity<ApiResponse<List<CareerGuide>>> getFeaturedGuides() {
+    public ResponseEntity<ApiResponse<List>> getFeaturedGuides() {
         try {
-            List<CareerGuide> guides = careerGuideRepository.findByIsFeaturedTrueAndIsActiveTrueOrderByCreatedAtDesc();
+            List guides = careerGuideRepository.findByIsFeaturedTrueAndIsActiveTrueOrderByCreatedAtDesc();
             return ResponseEntity.ok(ApiResponse.success(guides));
         } catch (Exception e) {
-            ApiResponse<List<CareerGuide>> log;
-			ApiResponse.error("Failed to fetch featured guides: {}", e.getMessage());
+            log.error("Failed to fetch featured guides: {}", e.getMessage());
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch featured guides: " + e.getMessage()));
         }
     }
     
     @GetMapping("/career-guides/{id}")
-    public ResponseEntity<ApiResponse<CareerGuide>> getCareerGuideById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> getCareerGuideById(@PathVariable Long id) {
         try {
             CareerGuide guide = careerGuideRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Career guide not found with id: " + id));
@@ -63,16 +61,15 @@ public class PrepareController {
             
             return ResponseEntity.ok(ApiResponse.success(guide));
         } catch (Exception e) {
-            ApiResponse<List<CareerGuide>> log;
-			ApiResponse.error("Failed to fetch career guide: {}", e.getMessage());
+            log.error("Failed to fetch career guide: {}", e.getMessage());
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch career guide: " + e.getMessage()));
         }
     }
     
     @GetMapping("/categories")
-    public ResponseEntity<ApiResponse<List<String>>> getCategories() {
+    public ResponseEntity<ApiResponse<List>> getCategories() {
         try {
-            List<String> categories = List.of(
+            List categories = List.of(
                 "RESUME_TIPS", 
                 "INTERVIEW_PREP", 
                 "CAREER_ADVICE", 
@@ -80,8 +77,7 @@ public class PrepareController {
             );
             return ResponseEntity.ok(ApiResponse.success(categories));
         } catch (Exception e) {
-            ApiResponse<List<CareerGuide>> log;
-			ApiResponse.error("Failed to fetch categories: {}", e.getMessage());
+            log.error("Failed to fetch categories: {}", e.getMessage());
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch categories: " + e.getMessage()));
         }
     }

@@ -35,16 +35,16 @@ public class InternshipService {
         internship.setTitle(internshipRequest.getTitle());
         internship.setDescription(internshipRequest.getDescription());
         internship.setDepartment(internshipRequest.getDepartment());
-        internship.setDescription(internshipRequest.getDescription());
+        internship.setLocation(internshipRequest.getLocation());
         internship.setVacancies(internshipRequest.getVacancies());
-        internship.setDescription(internshipRequest.getDescription());
-        internship.setTitle(internshipRequest.getTitle());
+        internship.setDuration(internshipRequest.getDuration());
+        internship.setType(internshipRequest.getType());
         internship.setStipendAmount(internshipRequest.getStipendAmount());
         internship.setSkillsRequired(internshipRequest.getSkillsRequired());
         internship.setLearningObjectives(internshipRequest.getLearningObjectives());
         internship.setApplicationDeadline(internshipRequest.getApplicationDeadline());
         internship.setStartDate(internshipRequest.getStartDate());
-        internship.setStartDate(internshipRequest.getStartDate());
+        internship.setEndDate(internshipRequest.getEndDate());
         internship.setCreatedBy(createdBy);
         internship.setIsActive(true);
         
@@ -62,16 +62,16 @@ public class InternshipService {
         internship.setTitle(internshipRequest.getTitle());
         internship.setDescription(internshipRequest.getDescription());
         internship.setDepartment(internshipRequest.getDepartment());
-        internship.setDescription(internshipRequest.getDescription());
+        internship.setLocation(internshipRequest.getLocation());
         internship.setVacancies(internshipRequest.getVacancies());
-        internship.setDescription(internshipRequest.getDescription());
-        internship.setTitle(internshipRequest.getTitle());
+        internship.setDuration(internshipRequest.getDuration());
+        internship.setType(internshipRequest.getType());
         internship.setStipendAmount(internshipRequest.getStipendAmount());
         internship.setSkillsRequired(internshipRequest.getSkillsRequired());
         internship.setLearningObjectives(internshipRequest.getLearningObjectives());
         internship.setApplicationDeadline(internshipRequest.getApplicationDeadline());
         internship.setStartDate(internshipRequest.getStartDate());
-        internship.setStartDate(internshipRequest.getStartDate());
+        internship.setEndDate(internshipRequest.getEndDate());
         
         return internshipRepository.save(internship);
     }
@@ -91,9 +91,4 @@ public class InternshipService {
     public List<Internship> getInternshipsByHR(Long hrId) {
         return internshipRepository.findByCreatedBy_IdAndIsActiveTrueOrderByCreatedAtDesc(hrId);
     }
-
-	public Internship getInternshipById(Object internshipId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

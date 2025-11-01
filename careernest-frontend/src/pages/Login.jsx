@@ -27,7 +27,9 @@ const Login = () => {
     setError('');
     
     try {
-      const result = await login(formData.email, formData.password, formData.role);
+      // Convert role to backend format
+      const backendRole = formData.role === 'hr' ? 'HR' : 'JOB_SEEKER';
+      const result = await login(formData.email, formData.password, backendRole);
       if (result.success) {
         // Redirect based on role
         if (formData.role === 'hr') {
@@ -39,7 +41,8 @@ const Login = () => {
         setError(result.error || 'Login failed');
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      console.error('Login error:', err);
+      setError(err.response?.data?.message || 'An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }

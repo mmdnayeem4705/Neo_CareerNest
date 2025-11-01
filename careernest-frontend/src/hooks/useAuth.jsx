@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = async (email, password, role = 'JOBSEEKER') => {
+  const login = async (email, password, role = 'JOB_SEEKER') => {
     try {
       const { data } = await api.post('/auth/login', { email, password, role });
       const token = data?.data?.token;
@@ -43,7 +43,8 @@ export const AuthProvider = ({ children }) => {
       }
       return { success: false, error: 'Invalid response' };
     } catch (error) {
-      return { success: false, error: 'Network error' };
+      console.error('Login error details:', error.response?.data);
+      return { success: false, error: error.response?.data?.message || 'Login failed' };
     }
   };
 

@@ -18,15 +18,15 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ParticipateController {
     
-    private final ContestRepository contestRepository = null;
+    private final ContestRepository contestRepository;
     
     @GetMapping("/contests")
-    public ResponseEntity<ApiResponse<List<Contest>>> getContests(
+    public ResponseEntity<ApiResponse<List>> getContests(
             @RequestParam(required = false) String type,
             @RequestParam(required = false) String difficultyLevel) {
         
         try {
-            List<Contest> contests;
+            List contests;
             if (type != null || difficultyLevel != null) {
                 contests = contestRepository.findActiveContestsWithFilters(type, difficultyLevel, LocalDateTime.now());
             } else {
@@ -34,57 +34,52 @@ public class ParticipateController {
             }
             return ResponseEntity.ok(ApiResponse.success(contests));
         } catch (Exception e) {
-            ApiResponse<List<Contest>> log;
-			ApiResponse.error("Failed to fetch contests: {}", e.getMessage());
+            log.error("Failed to fetch contests: {}", e.getMessage());
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch contests: " + e.getMessage()));
         }
     }
     
     @GetMapping("/contests/ongoing")
-    public ResponseEntity<ApiResponse<List<Contest>>> getOngoingContests() {
+    public ResponseEntity<ApiResponse<List>> getOngoingContests() {
         try {
-            List<Contest> contests = contestRepository.findOngoingContests(LocalDateTime.now());
+            List contests = contestRepository.findOngoingContests(LocalDateTime.now());
             return ResponseEntity.ok(ApiResponse.success(contests));
         } catch (Exception e) {
-            ApiResponse<List<Contest>> log;
-			ApiResponse.error("Failed to fetch ongoing contests: {}", e.getMessage());
+            log.error("Failed to fetch ongoing contests: {}", e.getMessage());
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch ongoing contests: " + e.getMessage()));
         }
     }
     
     @GetMapping("/contests/{id}")
-    public ResponseEntity<ApiResponse<Contest>> getContestById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> getContestById(@PathVariable Long id) {
         try {
             Contest contest = contestRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Contest not found with id: " + id));
             return ResponseEntity.ok(ApiResponse.success(contest));
         } catch (Exception e) {
-            ApiResponse<List<Contest>> log;
-			ApiResponse.error("Failed to fetch contest: {}", e.getMessage());
+            log.error("Failed to fetch contest: {}", e.getMessage());
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch contest: " + e.getMessage()));
         }
     }
     
     @GetMapping("/types")
-    public ResponseEntity<ApiResponse<List<String>>> getContestTypes() {
+    public ResponseEntity<ApiResponse<List>> getContestTypes() {
         try {
-            List<String> types = List.of("CODING", "MOCK_TEST", "HACKATHON", "QUIZ");
+            List types = List.of("CODING", "MOCK_TEST", "HACKATHON", "QUIZ");
             return ResponseEntity.ok(ApiResponse.success(types));
         } catch (Exception e) {
-            ApiResponse<List<Contest>> log;
-			ApiResponse.error("Failed to fetch contest types: {}", e.getMessage());
+            log.error("Failed to fetch contest types: {}", e.getMessage());
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch contest types: " + e.getMessage()));
         }
     }
     
     @GetMapping("/difficulty-levels")
-    public ResponseEntity<ApiResponse<List<String>>> getDifficultyLevels() {
+    public ResponseEntity<ApiResponse<List>> getDifficultyLevels() {
         try {
-            List<String> levels = List.of("EASY", "MEDIUM", "HARD");
+            List levels = List.of("EASY", "MEDIUM", "HARD");
             return ResponseEntity.ok(ApiResponse.success(levels));
         } catch (Exception e) {
-            ApiResponse<List<Contest>> log;
-			ApiResponse.error("Failed to fetch difficulty levels: {}", e.getMessage());
+            log.error("Failed to fetch difficulty levels: {}", e.getMessage());
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch difficulty levels: " + e.getMessage()));
         }
     }

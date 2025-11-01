@@ -14,14 +14,4 @@ public class LoginRequest {
     private String password;
     
     private String role = "JOB_SEEKER";
-
-	public String getEmail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public CharSequence getPassword() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

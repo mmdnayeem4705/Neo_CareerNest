@@ -41,44 +41,4 @@ public class JobRequest {
     private String skillsRequired;
     private String benefits;
     private LocalDateTime applicationDeadline;
-	public Object getDepartment() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getApplicationDeadline() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getVacancies() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getSalaryMin() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getEmploymentType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getExperienceLevel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getSkillsRequired() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getBenefits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

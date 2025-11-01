@@ -37,40 +37,4 @@ public class InternshipRequest {
     private LocalDateTime applicationDeadline;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-	public Object getTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getDepartment() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getVacancies() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getStipendAmount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getSkillsRequired() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getLearningObjectives() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getApplicationDeadline() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getStartDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

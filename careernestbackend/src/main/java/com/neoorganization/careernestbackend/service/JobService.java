@@ -32,14 +32,14 @@ public class JobService {
     }
     
     public Job createJob(JobRequest jobRequest, User createdBy) {
-		Job job = new Job();
+	Job job = new Job();
         job.setTitle(jobRequest.getTitle());
         job.setDescription(jobRequest.getDescription());
         job.setDepartment(jobRequest.getDepartment());
-        job.setDescription(jobRequest.getDescription());
+        job.setLocation(jobRequest.getLocation());
         job.setVacancies(jobRequest.getVacancies());
         job.setSalaryMin(jobRequest.getSalaryMin());
-        job.setSalaryMin(jobRequest.getSalaryMin());
+        job.setSalaryMax(jobRequest.getSalaryMax());
         job.setEmploymentType(jobRequest.getEmploymentType());
         job.setExperienceLevel(jobRequest.getExperienceLevel());
         job.setSkillsRequired(jobRequest.getSkillsRequired());
@@ -62,10 +62,10 @@ public class JobService {
         job.setTitle(jobRequest.getTitle());
         job.setDescription(jobRequest.getDescription());
         job.setDepartment(jobRequest.getDepartment());
-        job.setDescription(jobRequest.getDescription());
+        job.setLocation(jobRequest.getLocation());
         job.setVacancies(jobRequest.getVacancies());
         job.setSalaryMin(jobRequest.getSalaryMin());
-        job.setSalaryMin(jobRequest.getSalaryMin());
+        job.setSalaryMax(jobRequest.getSalaryMax());
         job.setEmploymentType(jobRequest.getEmploymentType());
         job.setExperienceLevel(jobRequest.getExperienceLevel());
         job.setSkillsRequired(jobRequest.getSkillsRequired());

@@ -1,4 +1,12 @@
-Just select the vscode terminal into Command Prompt terminal ,then
+✅ BACKEND BUGS HAVE BEEN FIXED!
+See FIXES_APPLIED.md and README_QUICK_START.md for details
+
+🚀 QUICK START OPTIONS:
+1. PowerShell: .\Start_Both.ps1 (Opens both in separate windows)
+2. Separate: Start_Backend.bat and Start_Frontend.bat
+3. Manual (below)
+
+Just select the vscode terminal into Command Prompt terminal, then
 
 
 🎯 Frontend (React)

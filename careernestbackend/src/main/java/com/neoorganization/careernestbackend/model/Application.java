@@ -59,41 +59,4 @@ public class Application {
     protected void onCreate() {
         appliedAt = LocalDateTime.now();
     }
-    
-    // Getters and setters for fields that need them
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
-    public void setJob(Job job) {
-        this.job = job;
-    }
-    
-    public void setInternship(Internship internship) {
-        this.internship = internship;
-    }
-    
-    public void setCoverLetter(String coverLetter) {
-        this.coverLetter = coverLetter;
-    }
-    
-    public void setResumeUrl(String resumeUrl) {
-        this.resumeUrl = resumeUrl;
-    }
-    
-    public void setStatus(ApplicationStatus status) {
-        this.status = status;
-    }
-    
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-    
-    public void setReviewedBy(User reviewedBy) {
-        this.reviewedBy = reviewedBy;
-    }
-    
-    public void setReviewedAt(LocalDateTime reviewedAt) {
-        this.reviewedAt = reviewedAt;
-    }
 }

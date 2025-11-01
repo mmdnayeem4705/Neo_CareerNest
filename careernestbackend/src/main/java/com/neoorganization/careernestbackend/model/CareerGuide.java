@@ -74,14 +74,4 @@ public class CareerGuide {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
-	public int getViewCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void setViewCount(int i) {
-		// TODO Auto-generated method stub
-		
-	}
 }
