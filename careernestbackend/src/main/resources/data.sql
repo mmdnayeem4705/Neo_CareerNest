@@ -5,7 +5,9 @@ INSERT INTO users (first_name, last_name, email, password, role, phone_number, i
 ('John', 'Doe', 'john.doe@example.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'JOB_SEEKER', '+1234567890', true, true, NOW(), NOW()),
 ('Jane', 'Smith', 'jane.smith@example.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'JOB_SEEKER', '+1234567891', true, true, NOW(), NOW()),
 ('HR', 'Manager', 'hr@neoorganization.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'HR', '+1234567892', true, true, NOW(), NOW()),
-('Admin', 'User', 'admin@neoorganization.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ADMIN', '+1234567893', true, true, NOW(), NOW());
+('Admin', 'User', 'admin@neoorganization.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ADMIN', '+1234567893', true, true, NOW(), NOW()),
+('Demo', 'Seeker', 'jobseeker@demo.com', '$2b$12$dm6yJ1OQUvFwPsgIQ2z59ejA4dlGVRKL8g9f.YK..YK/bixSKx7eO', 'JOB_SEEKER', '+1999111000', true, true, NOW(), NOW()),
+('Demo', 'HR', 'hr@neo.com', '$2b$12$14zFvIc5aGSkD.t2gaiGI.dn3oEVpwupCrOHlcxAieJHwiOsbhUdW', 'HR', '+1999111001', true, true, NOW(), NOW());
 
 -- Insert sample jobs
 INSERT INTO jobs (title, description, department, location, vacancies, salary_min, salary_max, employment_type, experience_level, skills_required, benefits, is_active, application_deadline, created_at, updated_at, created_by) VALUES
