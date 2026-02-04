@@ -1,14 +1,41 @@
 // src/components/Navbar.jsx
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout, isAuthenticated } = useAuth();
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const linkClasses = (path) =>
     `hover:text-blue-600 ${
       location.pathname === path ? "text-blue-600 font-semibold" : ""
     }`;
+
+  const initials = () => {
+    if (!user) return "U";
+    const first = user.firstName || "";
+    const last = user.lastName || "";
+    return (first.charAt(0) + (last.charAt(0) || "")).toUpperCase();
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -44,20 +71,61 @@ export default function Navbar() {
             </Link>
           </nav>
 
-          {/* Auth Buttons */}
+          {/* Auth / Account */}
           <div className="flex items-center gap-3">
-            <Link
-              to="/login"
-              className="text-sm px-4 py-1.5 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50"
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="text-sm px-4 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Sign Up
-            </Link>
+            {!isAuthenticated ? (
+              <>
+                <Link
+                  to="/login"
+                  className="text-sm px-4 py-1.5 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="text-sm px-4 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                >
+                  Sign Up
+                </Link>
+              </>
+            ) : (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none"
+                >
+                  <div className="h-9 w-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">{initials()}</div>
+                </button>
+
+                {open && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white border rounded-md shadow-lg py-2 z-50">
+                    <div className="px-4 py-2 border-b">
+                      <p className="text-sm font-medium text-gray-900">{user?.firstName} {user?.lastName}</p>
+                      <p className="text-xs text-gray-500">{user?.email}</p>
+                      <p className="text-xs text-gray-500 mt-1">{user?.role}</p>
+                    </div>
+
+                    {user?.role === 'JOB_SEEKER' && (
+                      <div>
+                        <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Personal Details</Link>
+                        <Link to="/my-applications" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Application Status</Link>
+                      </div>
+                    )}
+
+                    {user?.role === 'HR' && (
+                      <div>
+                        <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Personal Details</Link>
+                        <Link to="/hr/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Applications</Link>
+                      </div>
+                    )}
+
+                    <div className="border-t mt-2 pt-2">
+                      <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50">Logout</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

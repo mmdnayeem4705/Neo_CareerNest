@@ -140,7 +140,7 @@ Backend API communicates with frontend via secure endpoints
 Frontend Setup (React)
 
 To start working on the frontend:
-
+cd careernest-frontend
 npm create vite@latest
 npm install
 npm run dev

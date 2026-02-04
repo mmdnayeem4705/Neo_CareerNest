@@ -11,4 +11,10 @@ public class ApplicationRequest {
     private String resumeUrl;
     private Long jobId;
     private Long internshipId;
+
+    // Additional application fields
+    private String additionalInfo;
+    private String expectedSalary;
+    private String availability;
+    private String portfolio;
 }

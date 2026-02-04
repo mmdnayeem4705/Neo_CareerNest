@@ -25,13 +25,33 @@ public class ApplicationController {
     private final ApplicationService applicationService;
     
     @PostMapping
-    public ResponseEntity<ApiResponse<Application>> createApplication(@Valid @RequestBody ApplicationRequest applicationRequest, 
-                                                                    Authentication authentication) {
+    public ResponseEntity<ApiResponse<Application>> createApplication(@ModelAttribute ApplicationRequest applicationRequest,
+                                                                       @RequestParam(value = "resume", required = false) org.springframework.web.multipart.MultipartFile resume,
+                                                                       Authentication authentication) {
         try {
             User user = (User) authentication.getPrincipal();
+
+            // Handle resume upload if provided
+            if (resume != null && !resume.isEmpty()) {
+                try {
+                    java.nio.file.Path uploadDir = java.nio.file.Paths.get("uploads/resumes").toAbsolutePath().normalize();
+                    java.nio.file.Files.createDirectories(uploadDir);
+                    String originalFilename = resume.getOriginalFilename() != null ? resume.getOriginalFilename() : "resume_" + System.currentTimeMillis();
+                    String filename = System.currentTimeMillis() + "_" + originalFilename.replaceAll("\\s+", "_");
+                    java.nio.file.Path target = uploadDir.resolve(filename);
+                    resume.transferTo(target);
+                    // Save relative path as resumeUrl
+                    applicationRequest.setResumeUrl("/uploads/resumes/" + filename);
+                } catch (Exception ex) {
+                    log.error("Failed to store resume file", ex);
+                    return ResponseEntity.badRequest().body(ApiResponse.error("Failed to store resume file: " + ex.getMessage()));
+                }
+            }
+
             Application application = applicationService.createApplication(applicationRequest, user);
             return ResponseEntity.ok(ApiResponse.success("Application submitted successfully", application));
         } catch (Exception e) {
+            log.error("Failed to create application", e);
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to create application: " + e.getMessage()));
         }
     }
@@ -47,6 +67,17 @@ public class ApplicationController {
         }
     }
     
+    @PostMapping("/simple")
+    public ResponseEntity<ApiResponse<Application>> createApplicationJson(@Valid @RequestBody ApplicationRequest applicationRequest, Authentication authentication) {
+        try {
+            User user = (User) authentication.getPrincipal();
+            Application application = applicationService.createApplication(applicationRequest, user);
+            return ResponseEntity.ok(ApiResponse.success("Application submitted successfully", application));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("Failed to create application: " + e.getMessage()));
+        }
+    }
+
     @GetMapping("/job/{jobId}")
     public ResponseEntity<ApiResponse<List<Application>>> getJobApplications(@PathVariable Long jobId, 
                                                                            Authentication authentication) {

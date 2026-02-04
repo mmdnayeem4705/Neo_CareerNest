@@ -21,11 +21,14 @@ import Signup from './pages/Signup';
 import JobApply from './pages/JobApply';
 import InternshipApply from './pages/InternshipApply';
 import HRDashboard from './pages/HRDashboard';
+import Profile from './pages/Profile';
+import MyApplications from './pages/MyApplications';
 import NotFound from './pages/NotFound';
 import ContestJoin from './pages/ContestJoin';
 import ContestResults from './pages/ContestResults';
 import MockTestStart from './pages/MockTestStart';
 import './App.css';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -34,6 +37,7 @@ function App() {
         <div className="App min-h-screen flex flex-col">
           <Navbar />
           <main className="flex-grow">
+            <Toaster position="top-right" />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/jobs" element={<Jobs />} />
@@ -52,6 +56,8 @@ function App() {
               <Route path="/interview-experiences" element={<InterviewExperiences />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/my-applications" element={<MyApplications />} />
               <Route path="/jobs/apply/:id" element={<JobApply />} />
               <Route path="/internships/apply/:id" element={<InternshipApply />} />
               <Route path="/hr/dashboard" element={<HRDashboard />} />

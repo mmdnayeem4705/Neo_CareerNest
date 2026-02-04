@@ -80,12 +80,52 @@ const JobApply = () => {
     setError('');
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      alert('Application submitted successfully! You will hear back from us within 5-7 business days.');
-      navigate('/jobs');
+      // Require authentication
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('You must be logged in to apply.');
+        navigate('/login');
+        return;
+      }
+
+      // Build FormData for file upload
+      const formData = new FormData();
+      formData.append('jobId', job.id);
+      formData.append('coverLetter', application.coverLetter);
+      formData.append('additionalInfo', application.additionalInfo);
+      formData.append('expectedSalary', application.expectedSalary);
+      formData.append('availability', application.availability);
+      formData.append('portfolio', application.portfolio || '');
+      if (application.resume) {
+        formData.append('resume', application.resume);
+        const { data } = await applicationService.createApplication(formData);
+        if (data?.success) {
+          alert(data.message || 'Application submitted successfully!');
+          navigate('/my-applications');
+        } else {
+          setError(data?.message || 'Failed to submit application.');
+        }
+      } else {
+        // No resume: send JSON to simpler endpoint
+        const jsonPayload = {
+          jobId: job.id,
+          coverLetter: application.coverLetter,
+          additionalInfo: application.additionalInfo,
+          expectedSalary: application.expectedSalary,
+          availability: application.availability,
+          portfolio: application.portfolio || ''
+        };
+        const { data } = await applicationService.createApplicationJson(jsonPayload);
+        if (data?.success) {
+          alert(data.message || 'Application submitted successfully!');
+          navigate('/my-applications');
+        } else {
+          setError(data?.message || 'Failed to submit application.');
+        }
+      }
     } catch (error) {
-      setError('Failed to submit application. Please try again.');
+      console.error('Submit error:', error);
+      setError(error?.response?.data?.message || 'Failed to submit application. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -214,8 +254,8 @@ const JobApply = () => {
                         accept=".pdf,.doc,.docx"
                         onChange={handleChange}
                         className="sr-only"
-                        required
                       />
+                      <p className="text-sm text-gray-400 mt-1">(optional) If you don't upload, you can still apply</p>
                     </label>
                     <p className="pl-1">or drag and drop</p>
                   </div>

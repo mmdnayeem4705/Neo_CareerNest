@@ -2,7 +2,15 @@
 import api from './api';
 
 export const applicationService = {
-  createApplication: (applicationData) => api.post('/applications', applicationData),
+  createApplication: (applicationData) => {
+    // If FormData (file upload), send as multipart/form-data
+    if (applicationData instanceof FormData) {
+      return api.post('/applications', applicationData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+    }
+    return api.post('/applications', applicationData);
+  },
   getMyApplications: () => api.get('/applications/my-applications'),
   getJobApplications: (jobId) => api.get(`/applications/job/${jobId}`),
   getInternshipApplications: (internshipId) => api.get(`/applications/internship/${internshipId}`),
@@ -11,4 +19,5 @@ export const applicationService = {
     params: { status, notes }
   }),
   getApplicationById: (id) => api.get(`/applications/${id}`),
+  createApplicationJson: (applicationData) => api.post('/applications/simple', applicationData),
 };

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { userService } from '../services/userService';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -60,10 +61,18 @@ const Signup = () => {
         role
       };
       
-      await userService.register(registrationData);
-      navigate('/login');
+      const { data } = await userService.register(registrationData);
+      // Show backend message if present and handle success/failure
+      if (data?.success) {
+        toast.success(data.message || 'Registration successful');
+        navigate('/login');
+      } else {
+        setError(data?.message || 'Registration failed. Please try again.');
+      }
     } catch (error) {
-      setError(error.message || 'Registration failed. Please try again.');
+      // Prefer backend-provided message when available
+      setError(error?.response?.data?.message || error.message || 'Registration failed. Please try again.');
+      toast.error(error?.response?.data?.message || error.message || 'Registration failed');
     } finally {
       setLoading(false);
     }
