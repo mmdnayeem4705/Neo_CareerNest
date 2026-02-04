@@ -38,6 +38,9 @@ public class Application {
     @Column(name = "resume_url")
     private String resumeUrl;
     
+    @Column(name = "ats_score")
+    private Integer atsScore;  // 0-100 match score vs job/internship requirements
+    
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ApplicationStatus status = ApplicationStatus.PENDING;

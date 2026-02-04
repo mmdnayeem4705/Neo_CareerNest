@@ -166,4 +166,24 @@ public class ApplicationController {
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch application: " + e.getMessage()));
         }
     }
+
+    private final com.neoorganization.careernestbackend.service.ApplicationActionService applicationActionService;
+
+    @GetMapping("/{id}/actions")
+    public ResponseEntity<ApiResponse<java.util.List<com.neoorganization.careernestbackend.model.ApplicationAction>>> getApplicationActions(@PathVariable Long id, Authentication authentication) {
+        try {
+            User user = (User) authentication.getPrincipal();
+            Application application = applicationService.getApplicationById(id);
+            // restrict access same as getApplicationById
+            if (!application.getUser().getId().equals(user.getId()) && 
+                !user.getRole().name().equals("HR") && 
+                !user.getRole().name().equals("ADMIN")) {
+                return ResponseEntity.badRequest().body(ApiResponse.error("Access denied"));
+            }
+            java.util.List<com.neoorganization.careernestbackend.model.ApplicationAction> actions = applicationActionService.getActionsForApplication(id);
+            return ResponseEntity.ok(ApiResponse.success(actions));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("Failed to fetch application actions: " + e.getMessage()));
+        }
+    }
 }

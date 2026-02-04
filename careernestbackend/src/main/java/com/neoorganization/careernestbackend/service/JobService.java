@@ -16,6 +16,7 @@ import java.util.List;
 public class JobService {
     
     private final JobRepository jobRepository;
+    private final com.neoorganization.careernestbackend.service.SseService sseService;
 
 	public List<Job> getAllJobs() {
         return jobRepository.findByIsActiveTrueOrderByCreatedAtDesc();
@@ -48,7 +49,14 @@ public class JobService {
         job.setCreatedBy(createdBy);
         job.setIsActive(true);
         
-        return jobRepository.save(job);
+        Job saved = jobRepository.save(job);
+        // notify via SSE (non-blocking)
+        try {
+            sseService.sendEvent("job-created", saved);
+        } catch (Exception e) {
+            log.warn("Failed to broadcast job-created event: {}", e.getMessage());
+        }
+        return saved;
     }
     
     public Job updateJob(Long id, JobRequest jobRequest, User updatedBy) {

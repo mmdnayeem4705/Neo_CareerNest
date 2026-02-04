@@ -28,9 +28,11 @@ public class AuthController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final com.neoorganization.careernestbackend.service.LoginRecordService loginRecordService;
+    private final com.neoorganization.careernestbackend.repository.UserRepository userRepository;
     
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<ApiResponse<Map<String, Object>>> login(@Valid @RequestBody LoginRequest loginRequest, jakarta.servlet.http.HttpServletRequest request) {
         try {
             User user = userService.authenticateUser(loginRequest);
             
@@ -40,12 +42,37 @@ public class AuthController {
             
             String token = jwtTokenProvider.generateToken(authentication);
             
+            // record successful login
+            try {
+                String ip = request.getRemoteAddr();
+                String ua = request.getHeader("User-Agent");
+                loginRecordService.recordLogin(user, true, ip, ua);
+            } catch (Exception recEx) {
+                log.warn("Failed to save login record: {}", recEx.getMessage());
+            }
+            
             Map<String, Object> responseData = new HashMap<>();
             responseData.put("user", user);
             responseData.put("token", token);
             
             return ResponseEntity.ok(ApiResponse.success("Login successful", responseData));
         } catch (Exception e) {
+            // record failed attempt if user exists
+            try {
+                java.util.Optional<User> maybeUser = userRepository.findByEmail(loginRequest.getEmail());
+                if (maybeUser.isPresent()) {
+                    User u = maybeUser.get();
+                    String ip = request.getRemoteAddr();
+                    String ua = request.getHeader("User-Agent");
+                    try {
+                        loginRecordService.recordLogin(u, false, ip, ua);
+                    } catch (Exception recEx) {
+                        log.warn("Failed to save failed login record: {}", recEx.getMessage());
+                    }
+                }
+            } catch (Exception ignore) {
+                log.debug("Could not record failed login: {}", ignore.getMessage());
+            }
             return ResponseEntity.badRequest().body(ApiResponse.error("Login failed: " + e.getMessage()));
         }
     }

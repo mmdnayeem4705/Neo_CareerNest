@@ -1,5 +1,6 @@
 package com.neoorganization.careernestbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -44,6 +45,7 @@ public class User implements UserDetails {
     
     @NotBlank
     @Size(max = 100)
+    @JsonIgnore
     private String password;
     
     @Enumerated(EnumType.STRING)
@@ -112,4 +114,29 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return isActive;
     }
+
+	public void setEmail(String email2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setFirstName(String firstName2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setRole(Role role2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setPhoneNumber(String phoneNumber2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setPassword(String encode) {
+		// TODO Auto-generated method stub
+		
+	}
 }

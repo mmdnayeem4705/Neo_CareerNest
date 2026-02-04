@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import SseNotifications from './SseNotifications';
 
 export default function Navbar() {
   const location = useLocation();
@@ -73,6 +74,8 @@ export default function Navbar() {
 
           {/* Auth / Account */}
           <div className="flex items-center gap-3">
+            {/* Real-time notifications */}
+            <SseNotifications />
             {!isAuthenticated ? (
               <>
                 <Link
